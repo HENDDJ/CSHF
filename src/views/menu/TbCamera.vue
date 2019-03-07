@@ -1,13 +1,13 @@
 <template>
     <section>
-        <CommonCRUD :columns="formColumns" api-root="identity/populationRecords" :formColumns="formColumns"></CommonCRUD>
+        <CommonCRUD :columns="formColumns" api-root="identity/tbCamera" :formColumns="formColumns"></CommonCRUD>
     </section>
 </template>
 
 <script>
     import CommonCRUD from '@/components/CommonCRUD';
     export default {
-        name: 'PopulationRecords',
+        name: 'TbCamera',
         data() {
             return {
             }

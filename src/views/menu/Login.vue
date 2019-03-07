@@ -128,7 +128,7 @@ export default {
         height: 100%;
         width: 100%;
         //<!--background-color: $bg;-->
-        background-image: url("../../../static/img/gusu.png");
+        background-color: lightcyan;
         background-size: cover;
         .login-form {
             position: absolute;

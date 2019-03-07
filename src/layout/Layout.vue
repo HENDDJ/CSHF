@@ -71,7 +71,7 @@
 
     .header-bg {
         width: 100% ;
-        background: url("../../static/img/top.png") no-repeat;
+        background-color: lightskyblue;
         background-size: 100% 100%;
     }
 </style>
