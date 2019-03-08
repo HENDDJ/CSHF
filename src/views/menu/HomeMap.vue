@@ -14,7 +14,14 @@
         data() {
             return {
                 map: {},
-                cameraPoint :[]
+                cameraPoint :[],
+                problemPoint :[],
+                sensorPoint :[],
+                IP_PORT : "http://122.97.218.162:18080",
+                APP_KEY : "a592d676",
+                SECRET : "69681c3587194a50a2b11f1335ad6f41",
+                opUserUuid : 'c26a811c141a11e79aeeb32ef95273f2',
+                netZoneUuid : 'f5816cf43fcc41d880d9f636fa8bc443',
             }
         },
         methods: {
@@ -38,20 +45,55 @@
                 this.map.addOverlay(vectorMarker);              // 将标注添加到地图中
 
 
-
-                    this.$http('POST', 'identity/tbCamera/list', false).then(
+                 this.$http('POST', 'identity/tbCamera/list', false).then(
                         data => {
                             let markerCamera = [];
                             for( var index = 0; index < data.length; index ++){
+                                let icon = new BMap.Icon('../static/img/ceamra.png', new BMap.Size(30, 37));
+                                icon.imageSize = new BMap.Size(25, 31);
                                 let point = new BMap.Point(Number(data[index].xloc),Number(data[index].yloc));
-                                let marker = new BMap.Marker(point);
+                                let marker = new BMap.Marker(point, {icon: icon});
                                 markerCamera.push(marker);
                                 this.map.addOverlay(markerCamera[index]);
+                                let infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + data[index].cameraName + "</p>"+"<br>"+'999');
+                                marker.addEventListener("click", function () { this.openInfoWindow(infoWindow); });
                             }
                             this.cameraPoint = markerCamera;
 
                         }
                     );
+                this.$http('POST', 'identity/tbProblem/list', false).then(
+                    data => {
+                        let markerProblem = [];
+                        for( var index = 0; index < data.length; index ++){
+                            let point = new BMap.Point(Number(data[index].xloc),Number(data[index].yloc));
+                            let marker = new BMap.Marker(point);
+                            markerProblem.push(marker);
+                            this.map.addOverlay(markerProblem[index]);
+                            let infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + data[index].yloc + "</p>");
+                            marker.addEventListener("click", function () { this.openInfoWindow(infoWindow); });
+                            marker.hide();
+                        }
+                        this.problemPoint = markerProblem;
+
+                    }
+                );
+                this.$http('POST', 'identity/tbSensor/list', false).then(
+                    data => {
+                        let markerCamera = [];
+                        for( var index = 0; index < data.length; index ++){
+                            let point = new BMap.Point(Number(data[index].xloc),Number(data[index].yloc));
+                            let marker = new BMap.Marker(point);
+                            markerCamera.push(marker);
+                            this.map.addOverlay(markerCamera[index]);
+                            let infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + data[index].yloc + "</p>");
+                            marker.addEventListener("click", function () { this.openInfoWindow(infoWindow); });
+                            marker.hide();
+                        }
+                        this.sensorPoint = markerCamera;
+
+                    }
+                );
 
                 function ZoomControl(){
                     // 默认停靠位置和偏移量
@@ -150,37 +192,80 @@
 
             },
             showCamera(){
-                let a=[];
-                a=this.cameraPoint;
-                for(var index=0;index<a.length;index++){
-                    a[index].show();
+                let a1=[];
+                a1=this.cameraPoint;
+                for(var index=0;index<a1.length;index++){
+                    a1[index].show();
+                };
+                let a2=[];
+                a2=this.problemPoint;
+                for(var index=0;index<a2.length;index++){
+                    a2[index].hide();
+                };
+                let a3=[];
+                a3=this.sensorPoint;
+                for(var index=0;index<a3.length;index++){
+                    a3[index].hide();
                 }
 
             },
             showProblem(){
-                let a=[];
-                a=this.cameraPoint;
-                for(var index=0;index<a.length;index++){
-                    a[index].hide();
+                let a1=[];
+                a1=this.cameraPoint;
+                for(var index=0;index<a1.length;index++){
+                    a1[index].hide();
+                };
+                let a2=[];
+                a2=this.problemPoint;
+                for(var index=0;index<a2.length;index++){
+                    a2[index].show();
+                };
+                let a3=[];
+                a3=this.sensorPoint;
+                for(var index=0;index<a3.length;index++){
+                    a3[index].hide();
                 }
             },
 
             showSensor(){
-                let a=[];
-                a=this.cameraPoint;
-                for(var index=0;index<a.length;index++){
-                    a[index].hide();
+                let a1=[];
+                a1=this.cameraPoint;
+                for(var index=0;index<a1.length;index++){
+                    a1[index].hide();
+                };
+                let a2=[];
+                a2=this.problemPoint;
+                for(var index=0;index<a2.length;index++){
+                    a2[index].hide();
+                };
+                let a3=[];
+                a3=this.sensorPoint;
+                for(var index=0;index<a3.length;index++){
+                    a3[index].show();
                 }
+            },
+
+
+
+            SPV() {
+                var spv = window.parent.document.getElementById("spv");
+                // 初始化
+                InitSpvx(spv);
+                // 设置本地参数
+                SetLocalParam(spv);
             }
+
         },
 
         mounted() {
             this.initMap();
+            this.SPV();
 
         }
 
     }
 </script>
+
 
 <style>
     #allmap {
