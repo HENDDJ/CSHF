@@ -27,6 +27,10 @@ const router = new Router({
         {
             path: '/upload',
             component: () => import('@/components/UpLoad')
+        },
+        {
+            path: '/mobile',
+            component: () => import('@/components/VantProblem')
         }
     ]
 });

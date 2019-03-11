@@ -20,8 +20,8 @@
                 data => {
                     console.log(data)
                     this.formColumns.filter(item => item.name === 'submitter')[0].value = data.name;
-                    let myDate = new Date();
-                    this.formColumns.filter(item => item.name === 'submissionTime')[0].value = Date(myDate.toLocaleDateString());
+                    // let myDate = new Date();
+                    // this.formColumns.filter(item => item.name === 'submissionTime')[0].value = Date(myDate.toLocaleDateString());
                 }
             )
 

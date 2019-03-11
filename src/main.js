@@ -14,12 +14,18 @@ import Icon from 'vue-svg-icon/Icon.vue';
 import { generate, common, getRouter ,ht } from '@/api';
 import store from '@/store';
 import DynamicRoutes from '@/utils/dynamic-routes';
+import Vant from 'vant';
+import 'vant/lib/index.css';
+
+
 
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI, {size: 'mini'});
 Vue.use(store);
 Vue.component('icon', Icon);
+
+Vue.use(Vant);
 
 Vue.prototype.$http = common.http;
 Vue.prototype.$genHttp = generate;
@@ -34,6 +40,12 @@ Vue.prototype.$validate = (selected) => {
     }
     return true;
 };
+
+Vue.prototype.$screen = () => {
+    let screenWidth = window.screen.width;
+    return screenWidth/1920;
+};
+
 getRouter(router);
 
 DynamicRoutes.flushHandler(router, store);

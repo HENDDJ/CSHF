@@ -77,7 +77,11 @@ export default {
                     this.$store.commit("getMenu",data);
                     DynamicRoutes.transfer(data);
                     this.$router.addRoutes(data);
-                    this.$router.push({path: '/index/homeMap'});
+                    if(/(Android|iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                        this.$router.push({path: '/mobile'});
+                    } else {
+                        this.$router.push({path: '/index/homeMap'});
+                    }
                     this.loading = false;
                 });
             });
@@ -130,8 +134,8 @@ export default {
 
     .login-container {
         position: fixed;
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 100vw;
         //<!--background-color: $bg;-->
         background-color: lightcyan;
         background-size: cover;

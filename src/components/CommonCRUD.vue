@@ -17,18 +17,18 @@
                                     type="date"
                                     placeholder="选择日期"
                                     value-format="yyyy-MM-dd"
-                                    >
+                    >
                     </el-date-picker>
                     <el-date-picker v-if="item.type === 'datetime'"
                                     v-model="queryForm[item.name]"
                                     type="datetime"
                                     value-format="yyyy-MM-ddTHH:mm:ss"
                                     placeholder="选择日期"
-                                    >
+                    >
                     </el-date-picker>
                     <el-checkbox v-if="item.type === 'checkbox'"
                                  v-model="queryForm[item.name]"
-                    :label="item.des" border size="mini" true-label="true" false-label="false">
+                                 :label="item.des" border size="mini" true-label="true" false-label="false">
                     </el-checkbox>
                 </el-form-item>
                 <el-button v-if="queryFormColumns.filter(item => item.visible === true).length > 0" @click="query" type="primary" size="mini" icon="el-icon-search">搜索</el-button>
@@ -52,7 +52,7 @@
                 width="55"
                 align="center">
             </el-table-column>
-            <el-table-column v-for="item in columns" v-if="item.notShow !== 'true'" :key="item.name" :prop="item.name" :label="item.des"
+            <el-table-column v-for="item in columns" v-if="item.notShow !== 'true'" :key="item.name" :prop="item.aliasName || item.name" :label="item.des"
                              :width="item.width || ''" :formatter="item.formatter" align="center"></el-table-column>
         </el-table>
         <el-pagination style="text-align: right;margin-top: 20px;"
@@ -60,41 +60,41 @@
                        @current-change="currentChange" @size-change="sizeChange" layout="total, sizes, prev, pager, next">
         </el-pagination>
         <el-dialog
-        v-if="dialogVisible"
-        :title="title"
-        :visible.sync="dialogVisible"
-        width="60%"
-        align="left"
-        :modal-append-to-body='false'
-        :append-to-body="true"
-        :before-close="handleClose">
-        <el-form :inline="true" :model="form" :rules="rules" ref="form" class="demo-form-inline" label-width="100px" >
-            <el-form-item v-for="item in formColumns"  :key="item.des" :label="item.des" :prop="item.name" v-if="item.formShow !== 'false'">
-                <el-input v-model="form[item.name]" v-if="item.type === 'string'" :disabled="item.disabled || disabled"></el-input>
-                <el-select v-model="form[item.name]" v-else-if="item.type === 'select'" filterable :disabled="item.disabled || disabled">
-                    <el-option v-for="opItem in item.options" :value="opItem.value" :label="opItem.label" :key="opItem.value"></el-option>
-                </el-select>
-                <el-radio-group v-if="item.type === 'radio'" v-model="form[item.name]" :disabled="item.disabled || disabled" style="width: 178px" >
-                    <el-radio v-for="opItem in item.options" :label="opItem.value" :key="opItem.value"> {{opItem.label}}</el-radio>
-                </el-radio-group>
-                <el-date-picker v-if="item.type === 'date'"
-                                v-model="form[item.name]"
-                                type="date"
-                                :disabled="item.disabled || disabled"
-                                placeholder="选择日期"
-                                >
-                </el-date-picker>
-                <el-input v-model="form[item.name]" type="textarea" :rows="2" v-if="item.type === 'textarea'" :disabled="item.disabled || disabled"></el-input>
-                <!--预留富文本编辑-->
-                <Tinymce v-if="item.type === 'rich-editor'" v-model="form[item.name]"></Tinymce>
-                <CommonUpload v-if="item.type === 'file'" :value="form[item.name]" @getValue="form[item.name] = $event"></CommonUpload>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button type="primary" :loading="submitLoading" @click="submit('form')">确 定</el-button>
-            <el-button @click="handleClose">取 消</el-button>
-        </div>
-    </el-dialog>
+            v-if="dialogVisible"
+            :title="title"
+            :visible.sync="dialogVisible"
+            width="60%"
+            align="left"
+            :modal-append-to-body='false'
+            :append-to-body="true"
+            :before-close="handleClose">
+            <el-form :inline="true" :model="form" :rules="rules" ref="form" class="demo-form-inline" label-width="100px" >
+                <el-form-item v-for="item in formColumns"  :key="item.des" :label="item.des" :prop="item.name" v-if="item.formShow !== 'false'">
+                    <el-input v-model="form[item.name]" v-if="item.type === 'string'" :disabled="item.disabled || disabled"></el-input>
+                    <el-select v-model="form[item.name]" v-else-if="item.type === 'select'" filterable :disabled="item.disabled || disabled">
+                        <el-option v-for="opItem in item.options" :value="opItem.value" :label="opItem.label" :key="opItem.value"></el-option>
+                    </el-select>
+                    <el-radio-group v-if="item.type === 'radio'" v-model="form[item.name]" :disabled="item.disabled || disabled" style="width: 178px" >
+                        <el-radio v-for="opItem in item.options" :label="opItem.value" :key="opItem.value"> {{opItem.label}}</el-radio>
+                    </el-radio-group>
+                    <el-date-picker v-if="item.type === 'date'"
+                                    v-model="form[item.name]"
+                                    type="datetime"
+                                    :disabled="item.disabled || disabled"
+                                    placeholder="选择日期"
+                    >
+                    </el-date-picker>
+                    <el-input v-model="form[item.name]" type="textarea" :rows="2" v-if="item.type === 'textarea'" :disabled="item.disabled || disabled"></el-input>
+                    <!--预留富文本编辑-->
+                    <Tinymce v-if="item.type === 'rich-editor'" v-model="form[item.name]"></Tinymce>
+                    <CommonUpload v-if="item.type === 'file'" :value="form[item.name]" @getValue="form[item.name] = $event"></CommonUpload>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" :loading="submitLoading" @click="submit('form')">确 定</el-button>
+                <el-button @click="handleClose">取 消</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -316,8 +316,8 @@
                             if(item.max == item.min){
                                 this.rules[item.name].push({min:Number(item.min), message: `请输入${item.min}位`, trigger: item.triggerCheck});
                             }else{
-                            this.rules[item.name].push({min:Number(item.min),max:Number(item.max), message: `请输入${item.min}位到${item.max}位`, trigger: item.triggerCheck});
-                        }
+                                this.rules[item.name].push({min:Number(item.min),max:Number(item.max), message: `请输入${item.min}位到${item.max}位`, trigger: item.triggerCheck});
+                            }
                         }
                         if (item.max && !item.min){
                             this.rules[item.name].push({max:Number(item.max), message: `输入最多${item.max}位`, trigger: item.triggerCheck});

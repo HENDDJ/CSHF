@@ -70,7 +70,16 @@
                             let marker = new BMap.Marker(point);
                             markerProblem.push(marker);
                             this.map.addOverlay(markerProblem[index]);
-                            let infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + data[index].yloc + "</p>");
+                            var fourOpts = {
+                                width:200,
+                                height:300
+                            }
+                            let infoWindow = new BMap.InfoWindow("<p style='font-size:18px;font-weight:bold'>" + data[index].problemName + "</p><br>"+
+                            "<image src='"+data[index].imgUrl+"' style='width:200px;height:113px'/><br>"+"<p style='font-size:14px;'>"+"类别："+ data[index].type+ "</p><br>"+
+                                "<p style='font-size:14px;'>"+"描述："+ data[index].message+ "</p><br>" +
+                                "<p style='font-size:14px;'>"+"提交时间："+ data[index].submissionTime+ "</p><br>" +
+                                "<p style='font-size:14px;'>"+"提交人："+ data[index].submitter+ "</p><br>" ,fourOpts);
+
                             marker.addEventListener("click", function () { this.openInfoWindow(infoWindow); });
                             marker.hide();
                         }
