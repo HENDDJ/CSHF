@@ -11,13 +11,22 @@
     </van-popup>
         <div v-show="list=='1'">
             <section>
-                <MobCamera>
-
+                <MobSensor apiRoot="/identity/tbSensor">
+                </MobSensor>
+            </section>
+        </div>
+        <div v-show="list=='2'">
+            <section>
+                <MobProblem apiRoot="/identity/tbProblem">
+                </MobProblem>
+            </section>
+        </div>
+        <div v-show="list=='3'">
+            <section>
+                <MobCamera apiRoot="/identity/tbCamera">
                 </MobCamera>
             </section>
         </div>
-        <div v-show="list=='2'">2</div>
-        <div v-show="list=='3'">3</div>
         <div v-show="list=='4'"></div>
         <div v-show="list=='5'"></div>
         <div v-show="list=='6'"></div>
@@ -31,17 +40,22 @@
 </template>
 
 <script>
+
+    import MobSensor from "../views/menu/MobSensor";
     import MobCamera from "../views/menu/MobCamera";
+
+    import MobProblem from "../views/menu/MobProblem";
     export default {
         name: "VantProblem",
-        components: {MobCamera},
+        components: {MobCamera,MobSensor,MobProblem},
+
         data() {
             return {
                 size: 'large',
                 active: 0,
                 showPop: false,
                 list :'1',
-                columns: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+                columns: ['摄像头', '问题', '传感器'],
                 actions: [
                     {
                         name: '选项'
@@ -59,7 +73,8 @@
                 this.showPop =true;
             },
             onConfirm(value, index) {
-                this.$toast(`当前值：${value}, 当前索引：${index}`);
+                this.list = index+1;
+                this.showPop =false;
             },
             onCancel() {
                 this.showPop =false;
@@ -83,8 +98,8 @@
     }
     .mobile-el {
         width: 100vw;
-        height: 100vh;
-        overflow-x: hidden;
+
+
 
     }
 </style>

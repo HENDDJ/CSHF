@@ -256,19 +256,13 @@
 
 
 
-            SPV() {
-                var spv = window.parent.document.getElementById("spv");
-                // 初始化
-                InitSpvx(spv);
-                // 设置本地参数
-                SetLocalParam(spv);
-            }
+
 
         },
 
         mounted() {
             this.initMap();
-            this.SPV();
+
 
         }
 

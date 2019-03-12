@@ -39,7 +39,10 @@
                 loading: false,
                 finished: false,
                 Columns: [],
-                value :""
+                value :"",
+                queryForm: {
+                    problemName : ""
+            }
             };
         },
         methods: {
@@ -71,12 +74,25 @@
                 );
             },
             onSearch(){
-
-                console.log(this.value);
+                this.tableData =[];
+                this.queryForm={};
+                if(this.value){
+                    console.log(this.value)
+                    this.queryForm['problemName'] = this.value;
+                }
+                console.log(this.queryForm)
+                let path = `${this.apiRoot}/list`;
+                this.$http('POST', path, this.queryForm, false).then(
+                    data => {
+                        for (var index = 0; index < data.length; index++) {
+                            this.tableData.push(data[index]);
+                        }
+                    }
+                );
             }
         },
         created() {
-            let path = this.apiRoot;
+            let path = `${this.apiRoot}/list`;
             console.log(path);
             this.loadTableData(path);
 
