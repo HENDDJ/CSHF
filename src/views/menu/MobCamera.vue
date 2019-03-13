@@ -25,23 +25,17 @@
             v-model="diashow"
             confirmButtonText="取消"
             :before-close="beforeClose"
-            closeOnClickOverlay="true"
-            lockScroll="true"
-            message-align="left"
-
-            overflow="scroll"
             class="dalog"
         >
-            <van-cell-group v-for="item in dataList" label-align="left" >
-                <van-field  label-align="left" input-align="left" label="cameraId" v-model="item.cameraId" placeholder="请输入cameraId" required/>
+            <van-cell-group v-for="item in dataList"  class="group" :key="item.cameraId">
+                <van-field   label="cameraId" v-model="item.cameraId" placeholder="请输入cameraId" required/>
                 <van-field  label="cameraUuid" v-model="item.cameraUuid" placeholder="请输入cameraUuid"  required/>
                 <van-field  label="cameraName" v-model="item.cameraName" placeholder="请输入cameraName"  required/>
                 <van-field  label="cameraType" v-model="item.cameraType" placeholder="请输入cameraType" />
-                <van-field  label="channelNum" v-model="item.cameraChannelNum" placeholder="请输入cameraType" />
-                <van-field  label="onlineStatus" v-model="item.onlineStatus" placeholder="请输入cameraType" />
-                <van-field  label="xloc" v-model="item.xloc" placeholder="请输入cameraType" />
-                <van-field  label="yloc" v-model="item.yloc" placeholder="yloc" />
-
+                <van-field  label="channelNum" v-model="item.cameraChannelNum" placeholder="请输入cameraChannelNum" />
+                <van-field  label="onlineStatus" v-model="item.onlineStatus" placeholder="请输入onlineStatus" />
+                <van-field  label="xLoc" v-model="item.xloc" placeholder="请输入xloc" />
+                <van-field  label="yLoc" v-model="item.yloc" placeholder="请输入yloc" />
             </van-cell-group>
             <van-row>
                 <van-col span="8"offset="2"><van-button type="danger" @click="submit('form')" style="width:5rem">删除</van-button></van-col>
@@ -103,7 +97,7 @@
                         }
                     }
                 );
-                console.log(this.dataList[0]);
+
 
                 this.diashow=true
             },
@@ -174,5 +168,8 @@
     .dalog{
 
         overflow :scroll;
+    }
+    .group{
+        label-align :left
     }
 </style>

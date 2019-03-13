@@ -20,7 +20,26 @@
             />
 
         </van-list>
+        <van-dialog
+        v-model="diashow"
+        confirmButtonText="取消"
+        :before-close="beforeClose"
+        class="dalog"
+        >
+        <van-cell-group v-for="item in dataList"  class="group" :key="item.sensorName">
+            <van-field   label="传感器名" v-model="item.sensorName" placeholder="请输入传感器名" required/>
+            <van-field  label="温度" v-model="item.temperature" placeholder="请输入温度"  />
+            <van-field  label="湿度" v-model="item.humidity" placeholder="请输入湿度"  />
+            <van-field  label="水位" v-model="item.waterLevel" placeholder="请输入水位"/>
+            <van-field  label="风力" v-model="item.windPower" placeholder="请输入风力" />
+        </van-cell-group>
+        <van-row>
+            <van-col span="8"offset="2"><van-button type="danger" @click="submit('form')" style="width:5rem">删除</van-button></van-col>
+            <van-col span="8" offset="4"> <van-button type="info" @click="diaClose" style="width:5rem">修改</van-button></van-col>
+        </van-row>
 
+
+        </van-dialog>
 
     </div>
 
@@ -35,6 +54,7 @@
         data() {
             return {
                 tableData: [],
+                dataList :[],
                 list: [],
                 loading: false,
                 finished: false,
@@ -42,7 +62,9 @@
                 value :"",
                 queryForm: {
                     sensorName : ""
-                }
+                },
+                form: {},
+                diashow :false
             };
         },
         methods: {
@@ -60,8 +82,21 @@
                     }
                 }, 500);
             },
-            tt(path) {
-                this.$toast(path);
+            tt(sensorName) {
+                this.dataList=[];
+                let queryForm={};
+                queryForm['sensorName'] = sensorName;
+                let path = `${this.apiRoot}/list`;
+                this.$http('POST', path, queryForm, false).then(
+                    data => {
+                        for (var index = 0; index < data.length; index++) {
+                            this.dataList.push(data[index]);
+                        }
+                    }
+                );
+
+
+                this.diashow=true
             },
             loadTableData(path){
 
@@ -89,6 +124,19 @@
                         }
                     }
                 );
+            },
+            beforeClose(action, done) {
+                if (action === 'confirm') {
+                    // setTimeout(done, 1000);
+                    done();
+                } else {
+                    done();
+                }
+            },
+            diaClose(action, done) {
+
+                this.diashow = false;
+
             }
         },
         created() {

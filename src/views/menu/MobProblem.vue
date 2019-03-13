@@ -21,7 +21,27 @@
 
         </van-list>
 
+        <van-dialog
+            v-model="diashow"
+            confirmButtonText="取消"
+            :before-close="beforeClose"
+            class="dalog"
+        >
+            <van-cell-group v-for="item in dataList"  class="group" :key="item.problemName">
+                <van-field   label="问题名称" v-model="item.problemName" placeholder="请输入problemName" required/>
+                <van-field  label="类型" v-model="item.type" placeholder="请输入type"  required/>
+                <van-field  label="信息" v-model="item.message" placeholder="请输入message"  required/>
+                <van-field  label="提交时间" v-model="item.submissionTime" type="datetime"/>
+                <van-field  label="提交人" v-model="item.submitter" placeholder="请输入submitter" />
+                <img  :src="item.imgUrl" />
+            </van-cell-group>
+            <van-row>
+                <van-col span="8"offset="2"><van-button type="danger" @click="submit('form')" style="width:5rem">删除</van-button></van-col>
+                <van-col span="8" offset="4"> <van-button type="info" @click="diaClose" style="width:5rem">修改</van-button></van-col>
+            </van-row>
 
+
+        </van-dialog>
     </div>
 
 </template>
@@ -35,6 +55,7 @@
         data() {
             return {
                 tableData: [],
+                dataList :[],
                 list: [],
                 loading: false,
                 finished: false,
@@ -42,7 +63,9 @@
                 value :"",
                 queryForm: {
                     problemName : ""
-            }
+            },
+                form: {},
+                diashow :false
             };
         },
         methods: {
@@ -60,8 +83,21 @@
                     }
                 }, 500);
             },
-            tt(path) {
-                this.$toast(path);
+            tt(problemName) {
+                this.dataList=[];
+                let queryForm={};
+                queryForm['problemName'] = problemName;
+                let path = `${this.apiRoot}/list`;
+                this.$http('POST', path, queryForm, false).then(
+                    data => {
+                        for (var index = 0; index < data.length; index++) {
+                            this.dataList.push(data[index]);
+                        }
+                    }
+                );
+
+
+                this.diashow=true
             },
             loadTableData(path){
 
@@ -89,6 +125,19 @@
                         }
                     }
                 );
+            },
+            beforeClose(action, done) {
+                if (action === 'confirm') {
+                    // setTimeout(done, 1000);
+                    done();
+                } else {
+                    done();
+                }
+            },
+            diaClose(action, done) {
+
+                this.diashow = false;
+
             }
         },
         created() {
@@ -113,6 +162,13 @@
         width: 100vw;
         height: 100vh;
 
+    }
+    .dalog{
+
+        overflow :scroll;
+    }
+    .group{
+        label-align :left;
     }
 </style>
 
