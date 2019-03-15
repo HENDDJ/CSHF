@@ -28,21 +28,13 @@
             class="dalog"
         >
             <van-cell-group v-for="item in dataList"  class="group" :key="item.cameraId">
-                <van-field   label="cameraId" v-model="item.cameraId" placeholder="请输入cameraId" required/>
-                <van-field  label="cameraUuid" v-model="item.cameraUuid" placeholder="请输入cameraUuid"  required/>
-                <van-field  label="cameraName" v-model="item.cameraName" placeholder="请输入cameraName"  required/>
-                <van-field  label="cameraType" v-model="item.cameraType" placeholder="请输入cameraType" />
-                <van-field  label="channelNum" v-model="item.cameraChannelNum" placeholder="请输入cameraChannelNum" />
-                <van-field  label="onlineStatus" v-model="item.onlineStatus" placeholder="请输入onlineStatus" />
-                <van-field  label="xLoc" v-model="item.xloc" placeholder="请输入xloc" />
-                <van-field  label="yLoc" v-model="item.yloc" placeholder="请输入yloc" />
+                <van-field   label="cameraId" v-model="item.cameraId" placeholder="" required/>
+                <van-field  label="cameraUuid" v-model="item.cameraUuid" placeholder=""  required/>
+                <van-field  label="cameraName" v-model="item.cameraName" placeholder=""  required/>
+                <van-field  label="cameraType" v-model="item.cameraType" placeholder="" />
+                <van-field  label="channelNum" v-model="item.cameraChannelNum" placeholder="" />
+                <van-field  label="onlineStatus" v-model="item.onlineStatus" placeholder="" />
             </van-cell-group>
-            <van-row>
-                <van-col span="8"offset="2"><van-button type="danger" @click="submit('form')" style="width:5rem">删除</van-button></van-col>
-                <van-col span="8" offset="4"> <van-button type="info" @click="diaClose" style="width:5rem">修改</van-button></van-col>
-            </van-row>
-
-
         </van-dialog>
     </div>
 

@@ -9,11 +9,10 @@
                 @click-left="onClickLeft"
             />
             <van-cell-group class="group" >
-                <van-field   label="问题名称" v-model="queryForm['problemName']" placeholder="请输入problemName" required/>
-                <van-field  label="类型" v-model="queryForm['type']" placeholder="请输入type"  required/>
-                <van-field  label="信息" v-model="queryForm['message']" placeholder="请输入message"  required/>
-                <van-field  label="提交时间" v-model="queryForm['submissionTime']" type="datetime"/>
-                <van-field  label="提交人" v-model="queryForm['submitter']" placeholder="请输入submitter" />
+                <van-field   label="问题名称" v-model="queryForm['problemName']" placeholder="请输入问题名称" required/>
+                <van-field  label="类型" v-model="queryForm['type']" placeholder="请输入类型"  required/>
+                <van-field  label="信息" v-model="queryForm['message']" placeholder="请输入信息"  required/>
+                <van-field  label="提交人" v-model="queryForm['submitter']" placeholder="请输入提交人" />
                 <van-row>
                 <img v-if="queryForm['imgUrl']" :src="queryForm['imgUrl']" /></van-row>
                 <van-row>
@@ -28,10 +27,10 @@
     </section>
 
 </template>
-
 <script>
     import CommonUpload from '@/components/UpLoad';
     import { Notify } from 'vant';
+    import lrz from 'lrz';
     export default {
         name: "MapCamera",
         data() {
@@ -148,6 +147,8 @@
                     if(r){
                         this.queryForm['xloc']=r.point.lng;
                         this.queryForm['yloc']=r.point.lat;
+                        let myDate = new Date();
+                        this.queryForm['submissionTime'] = myDate;
                     }
                     else {
                         alert('failed');
@@ -168,8 +169,11 @@
 
             },
             onRead(file) {
+                console.log(file);
+                lrz(file.file, {width: 200,height :110,quality :0.7}).then(
+                    (result)=>{
                 let formData = new FormData();
-                    formData.append('file', file.file);
+                    formData.append('file', new File([result.file],file.file.name));
 
 
                     this.$http('POST', '/identity/accessory/', formData, false).then(
@@ -184,8 +188,8 @@
                     ).catch(errors=> {
                         alert(errors);
                 })
-
-
+            }
+            )
             },
 
         },

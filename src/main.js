@@ -16,9 +16,10 @@ import store from '@/store';
 import DynamicRoutes from '@/utils/dynamic-routes';
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import Video from 'video.js'
+import 'video.js/dist/video-js.css'
 
-
-
+Vue.prototype.$video = Video;
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI, {size: 'mini'});

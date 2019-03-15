@@ -1,7 +1,11 @@
 <template>
     <section>
         <div id="allmap"></div>
-
+<!--<div>-->
+    <!--<video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="1080" height="708" data-setup='{}'>-->
+        <!--<source id="source" src="http://jrweixin.zj96296.com:10800/hls/stream_2/stream_2_live.m3u8"  type="application/x-mpegURL">-->
+    <!--</video>-->
+<!--</div>-->
 
     </section>
 
@@ -56,7 +60,10 @@
                             let marker = new BMap.Marker(point, {icon: icon});
                             markerCamera.push(marker);
                             this.map.addOverlay(markerCamera[index]);
-                            let infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + data[index].cameraName + "</p>"+"<br>"+'999');
+                            let infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + data[index].cameraName + "</p>"+"<br>"
+                                +"  <video id='myVideo' class='video-js vjs-default-skin vjs-big-play-centered' controls preload='auto' width='300' height='180' data-setup='{}'>"+
+                                "<source id='source' src='http://jrweixin.zj96296.com:10800/hls/stream_2/stream_2_live.m3u8'  type='application/x-mpegURL'>"+
+                                " </video>");
                             marker.addEventListener("click", function () { this.openInfoWindow(infoWindow); });
                         }
 
